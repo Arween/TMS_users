@@ -4,6 +4,7 @@ import "./index.css";
 
 interface ITitle {
   title: string;
+  fontSize?: number;
 }
 
 export const Title = memo(({ title }: ITitle) => (
