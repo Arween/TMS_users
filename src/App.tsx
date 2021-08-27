@@ -12,13 +12,13 @@ function App() {
 
   const defaultSortSettings = [
     {
-      title: "Rating",
-      field: "rating",
+      title: "AGE",
+      field: "age",
       isActive: false,
     },
     {
-      title: "Year",
-      field: "year",
+      title: "Email",
+      field: "email",
       isActive: false,
     },
   ];
@@ -53,6 +53,28 @@ function App() {
 
   const handlerSorting = (field: string) => {
     console.log("handlerSorting", { field });
+
+    const firstUser = users[0] as any;
+
+    const newSettings = sortSettings.map((setting) => ({
+      ...setting,
+      isActive: setting.field === field,
+    }));
+
+    setSortSettings(newSettings);
+
+    if (typeof firstUser[field] === "number") {
+      const newUsers = [...users].sort((a: any, b: any) => a[field] - b[field]);
+      setFilteredUsers(newUsers);
+      return;
+    }
+
+    // const newUsers = [...users].sort((a: any, b: any) => a[field] - b[field]);
+    const newUsers = [...users].sort((a: any, b: any) =>
+      a[field].localeCompare(b[field])
+    );
+
+    setFilteredUsers(newUsers);
   };
   return (
     <div className="App">
