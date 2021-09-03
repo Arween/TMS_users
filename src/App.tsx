@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import { setUncaughtExceptionCaptureCallback } from "process";
+import React, { useEffect, useState } from "react";
 // import logo from "./logo.svg";
 import "./App.css";
+import { UserCard } from "./components/atoms/UserCard/UserCard";
 import { Filter } from "./components/molecules/Filter";
 import { UserList } from "./components/molecules/UserList";
 import { InputSearch } from "./InputSearch";
@@ -9,6 +11,7 @@ import { users } from "./mock";
 function App() {
   const [filteredUsers, setFilteredUsers] = useState(users);
   const [searchValue, setSearchValue] = useState("");
+  const [searchClickValue, setSearchClickValue] = useState("");
 
   const defaultSortSettings = [
     {
@@ -29,26 +32,18 @@ function App() {
     // console.log({ text });
     setSearchValue(text);
     // console.log({ searchValue });
-    if (text.length > 2) {
-      const newUsers = users.filter(({ first_name }) =>
-        first_name.toLocaleLowerCase().includes(searchValue.toLocaleLowerCase())
-      );
-      setFilteredUsers(newUsers);
-      return;
-    }
-
-    setFilteredUsers(users);
   };
 
   const onClick = () => {
-    const newUsers = users.filter(({ first_name }) =>
-      first_name.toLocaleLowerCase().includes(searchValue.toLocaleLowerCase())
-    );
-
-    console.log("onClick");
-    const users5 = [...users].sort((a, b) => a.age - b.age);
-    console.log({ users5, users });
-    setFilteredUsers(users5);
+    // setUncaughtExceptionCaptureCallback()
+    // const newUsers = users.filter(({ first_name }) =>
+    //   first_name.toLocaleLowerCase().includes(searchValue.toLocaleLowerCase())
+    // );
+    // console.log("onClick");
+    // const users5 = [...users].sort((a, b) => a.age - b.age);
+    // console.log({ users5, users });
+    // setFilteredUsers(users5);
+    // getUsers();
   };
 
   const handlerSorting = (field: string) => {
@@ -76,19 +71,63 @@ function App() {
 
     setFilteredUsers(newUsers);
   };
+
+  // const [count1, setCount1] = useState(0);
+  // const [count2, setCount2] = useState(0);
+  // const [count3, setCount3] = useState(0);
+
+  useEffect(() => {
+    console.log("count2 changed!");
+    // getUsers();
+    if (searchValue.length > 2) {
+      const newUsers = users.filter(({ first_name }) =>
+        first_name.toLocaleLowerCase().includes(searchValue.toLocaleLowerCase())
+      );
+      setFilteredUsers(newUsers);
+      return;
+    }
+
+    setFilteredUsers(users);
+  }, [searchValue]);
+
+  const [selectedUser, setSelectedUser] = useState(users[0]);
+
+  const onClickUser = (id: number) => {
+    // console.log({ id });
+    const newUser = users.find(({ id: userId }) => id === userId);
+    // const newUser = users.find((user) => id === user.id);
+
+    if (newUser) {
+      setSelectedUser(newUser);
+    }
+  };
+
   return (
     <div className="App">
+      {/* <div>
+        {count1} {count2} {count3}
+        <br />
+        <button onClick={() => setCount1(count1 + 1)}>Increment count1</button>
+        <button onClick={() => setCount2(count2 + 1)}>Increment count2</button>
+        <button onClick={() => setCount3(count3 + 1)}>Increment count3</button>
+      </div> */}
       <main>
+        <h3 className={"h3"}>Selected User</h3>
+        <UserCard {...selectedUser} />
         <Filter sortSettings={sortSettings} onClick={handlerSorting} />
         {filteredUsers?.length ? (
           <>
-            {/* <InputSearch
+            <InputSearch
               value={searchValue}
               onChangeHandler={onChangeHandler}
               onClick={onClick}
-            /> */}
+            />
             <h3 className={"h3"}>Users</h3>
-            <UserList users={filteredUsers} title={"Tile new"} />
+            <UserList
+              users={filteredUsers}
+              title={"Tile new"}
+              onClickUser={onClickUser}
+            />
           </>
         ) : (
           <p>No user</p>

@@ -1,6 +1,6 @@
 import * as React from "react";
 import { memo } from "react";
-// import { IUser } from "../../../types";
+
 import "./index.css";
 
 interface IInput {
@@ -17,8 +17,3 @@ export const InputSearch = memo(
     </div>
   )
 );
-
-{
-  /* <input value={value} onChange={(e) =>
- onChangeHandler(e.target.value)} /> */
-}
