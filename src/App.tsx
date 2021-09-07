@@ -1,10 +1,8 @@
-import { setUncaughtExceptionCaptureCallback } from "process";
 import React, { useEffect, useState } from "react";
 // import logo from "./logo.svg";
 import "./App.css";
 import { UserCard } from "./components/atoms/UserCard/UserCard";
-import { Filter } from "./components/molecules/Filter";
-import { UserList } from "./components/molecules/UserList";
+import { Filter, UserList } from "./components/molecules";
 import { InputSearch } from "./InputSearch";
 import { users } from "./mock";
 
@@ -102,6 +100,39 @@ function App() {
     }
   };
 
+  const [bookmarksId, setBookmarksId] = useState<number[]>([]);
+  console.log({ bookmarksId });
+
+  const addBookmark = (id: number) => {
+    console.log("addBookmark");
+    const hasId = bookmarksId.find((currentId) => currentId === id);
+    if (hasId) {
+      return;
+    }
+    const newBookmarksId = [...bookmarksId, id];
+    setBookmarksId(newBookmarksId);
+    localStorage.setItem("bookmarks", JSON.stringify(newBookmarksId));
+  };
+
+  useEffect(() => {
+    const savedBookmarks = localStorage.getItem("bookmarks");
+
+    if (savedBookmarks) {
+      setBookmarksId(JSON.parse(savedBookmarks));
+    }
+
+    return () => {};
+  }, []);
+
+  const removeBookmark = (id: number) => {
+    console.log("removeBookmark");
+    const filteredBookmarks = bookmarksId.filter(
+      (currentId) => currentId !== id
+    );
+    setBookmarksId(filteredBookmarks);
+    localStorage.setItem("bookmarks", JSON.stringify(filteredBookmarks));
+  };
+
   return (
     <div className="App">
       {/* <div>
@@ -112,21 +143,24 @@ function App() {
         <button onClick={() => setCount3(count3 + 1)}>Increment count3</button>
       </div> */}
       <main>
-        <h3 className={"h3"}>Selected User</h3>
+        {/* <h3 className={"h3"}>Selected User</h3>
         <UserCard {...selectedUser} />
-        <Filter sortSettings={sortSettings} onClick={handlerSorting} />
+        <Filter sortSettings={sortSettings} onClick={handlerSorting} /> */}
         {filteredUsers?.length ? (
           <>
-            <InputSearch
+            {/* <InputSearch
               value={searchValue}
               onChangeHandler={onChangeHandler}
               onClick={onClick}
-            />
+            /> */}
             <h3 className={"h3"}>Users</h3>
             <UserList
               users={filteredUsers}
               title={"Tile new"}
               onClickUser={onClickUser}
+              addBookmark={addBookmark}
+              removeBookmark={removeBookmark}
+              bookmarksId={bookmarksId}
             />
           </>
         ) : (
