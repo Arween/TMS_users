@@ -1,0 +1,16 @@
+.user-list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.btn {
+  background: #7f7fd5;
+  border-radius: 13px;
+  padding: 10px;
+  font-size: 16px;
+  color: white;
+  height: 50px;
+  border: none;
+}

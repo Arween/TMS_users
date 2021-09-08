@@ -1,0 +1,10 @@
+.title {
+  font-family: "Alata";
+  font-style: normal;
+  font-weight: normal;
+  font-size: 30px;
+  line-height: 41px;
+  display: flex;
+  align-items: center;
+  color: #4f4f4f;
+}
