@@ -1,19 +1,37 @@
 import React from "react";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  Redirect,
+} from "react-router-dom";
 // import logo from "./logo.svg";
 import "./App.css";
+import { Title } from "./components/atoms/Title";
 import { Home } from "./components/pages/Home";
+import { Login } from "./components/pages/Login";
+import { NotFound } from "./components/pages/NotFound";
 import { User } from "./components/pages/User";
 import { Users } from "./components/pages/Users";
+import { PrivateRoute } from "./router/PrivateRoute";
+import { PublicRoute } from "./router/PublicRoute";
 
 function App() {
+  const loggedIn = false;
+  console.log({ loggedIn });
+  if (!loggedIn) {
+    <Redirect to="/login" />;
+  }
   return (
     <Router>
       <div>
         <nav>
           <ul>
             <li>
-              <Link to="/">Home</Link>
+              <Link className={"app"} to="/">
+                Home
+              </Link>
             </li>
             <li>
               <Link to="/users/:id">User</Link>
@@ -24,18 +42,17 @@ function App() {
           </ul>
         </nav>
 
-        {/* A <Switch> looks through its children <Route>s and
-            renders the first one that matches the current URL. */}
         <Switch>
-          <Route path="/users/:id">
-            <User />
-          </Route>
-          <Route path="/users">
-            <Users />
-          </Route>
-          <Route path="/">
-            <Home />
-          </Route>
+          <PublicRoute restricted={true} component={Home} path="/" exact />
+          <PublicRoute
+            restricted={true}
+            component={Login}
+            path="/login"
+            exact
+          />
+          <PrivateRoute component={User} path="/users/:id" exact />
+          <PrivateRoute component={Users} path="/users" exact />
+          <PublicRoute restricted={true} component={NotFound} exact />
         </Switch>
       </div>
     </Router>
@@ -43,3 +60,24 @@ function App() {
 }
 
 export default App;
+
+// {
+//   /* <Route exact path="/users/:id">
+//             <User />
+//           </Route>
+//           <Route exact path="/users">
+//             <Users />
+//           </Route>
+//           <Route exact path="/">
+//             <Home />
+//           </Route>
+//           <Route exact path="/login">
+//             <Title title={"Login"} />
+//           </Route> */
+// }
+
+// {
+//   /* <Route>
+//             <Title title={"Not found"} />
+//           </Route> */
+// }
