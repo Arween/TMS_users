@@ -6,6 +6,7 @@ import { ButtonCommon } from "../atoms/ButtonCommon";
 import { InputCommon } from "../atoms/InputCommon";
 
 import { Title } from "../atoms/Title";
+import { MainTemplate } from "../templates/MainTemplate";
 
 export const Login = () => {
   const [userName, setUserName] = useState("");
@@ -31,9 +32,9 @@ export const Login = () => {
   };
 
   return (
-    <div className="App">
-      <main>
-        <Title title={"Login"} />
+    <MainTemplate
+      titleBlock={<Title title={"Login"} />}
+      main={
         <form className="form">
           <InputCommon
             value={userName}
@@ -57,7 +58,7 @@ export const Login = () => {
             Login
           </ButtonCommon>
         </form>
-      </main>
-    </div>
+      }
+    />
   );
 };
