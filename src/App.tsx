@@ -18,11 +18,11 @@ import { PrivateRoute } from "./router/PrivateRoute";
 import { PublicRoute } from "./router/PublicRoute";
 
 function App() {
-  const loggedIn = false;
-  console.log({ loggedIn });
-  if (!loggedIn) {
-    <Redirect to="/login" />;
-  }
+  // const loggedIn = false;
+  // console.log({ loggedIn });
+  // if (!loggedIn) {
+  //   <Redirect to="/login" />;
+  // }
   return (
     <Router>
       <div>
@@ -43,16 +43,11 @@ function App() {
         </nav>
 
         <Switch>
-          <PublicRoute restricted={true} component={Home} path="/" exact />
-          <PublicRoute
-            restricted={true}
-            component={Login}
-            path="/login"
-            exact
-          />
+          <PublicRoute component={Home} path="/" exact />
+          <PublicRoute component={Login} path="/login" exact />
           <PrivateRoute component={User} path="/users/:id" exact />
           <PrivateRoute component={Users} path="/users" exact />
-          <PublicRoute restricted={true} component={NotFound} exact />
+          <PublicRoute component={NotFound} exact />
         </Switch>
       </div>
     </Router>

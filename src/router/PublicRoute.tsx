@@ -1,11 +1,6 @@
 import React from "react";
-import { Route, Redirect } from "react-router-dom";
-import { isLogin } from "./utils";
+import { Route } from "react-router-dom";
 
-export const PublicRoute = ({
-  component: Component,
-  restricted,
-  ...rest
-}: any) => {
+export const PublicRoute = ({ component: Component, ...rest }: any) => {
   return <Route {...rest} render={(props) => <Component {...props} />} />;
 };
