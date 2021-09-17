@@ -10,8 +10,10 @@ export const MainTemplate = ({ titleBlock, main }: IMainTemplate) => {
   return (
     <div className="App">
       <Header />
-      <div className="title">{titleBlock}</div>
-      <div className="main">{main}</div>
+      <div className="content">
+        <div className="title">{titleBlock}</div>
+        <div className="main">{main}</div>
+      </div>
     </div>
   );
 };

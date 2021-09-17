@@ -1,0 +1,3 @@
+export enum ACTIONS {
+  SET_IS_OPEN_HEADER = "SET_IS_OPEN_HEADER",
+}

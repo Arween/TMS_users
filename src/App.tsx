@@ -26,22 +26,6 @@ function App() {
   return (
     <Router>
       <div>
-        <nav>
-          <ul>
-            <li>
-              <Link className={"app"} to="/">
-                Home
-              </Link>
-            </li>
-            <li>
-              <Link to="/users/:id">User</Link>
-            </li>
-            <li>
-              <Link to="/users">Users</Link>
-            </li>
-          </ul>
-        </nav>
-
         <Switch>
           <PublicRoute component={Home} path="/" exact />
           <PublicRoute component={Login} path="/login" exact />

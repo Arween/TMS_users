@@ -1,0 +1,41 @@
+{
+  "presets": ["@babel/preset-env", "@babel/preset-react", "react-app"],
+  "plugins": [
+    [
+      "module-resolver",
+      {
+        "root": ["./src"],
+        "alias": {
+          "context": "./src/context",
+          "components": "./src/components",
+          "services": "./src/services",
+          "services/*": "./src/services/*",
+          "atoms": "./src/components/atoms",
+          "atoms/*": "./src/components/atoms/*",
+          "molecules": "./src/components/molecules",
+          "molecules/*": "./src/components/molecules/*",
+          "organisms": "./src/components/organisms",
+          "organisms/*": "./src/components/organisms/*",
+          "templates": "./src/components/templates",
+          "templates/*": "./src/components/templates/*",
+          "pages": "./src/components/pages",
+          "pages/*": "./src/components/pages/*",
+          "ui": "./src/ui",
+          "ui/": "./src/ui/*",
+          "assets/*": "./src/assets/*",
+          "types": "./src/types",
+          "router": "./src/router",
+          "router/*": "./src/router/*",
+          "hooks": "./src/hooks",
+          "hooks/*": "./src/hooks/*",
+          "core": "./src/core",
+          "core/*": "./src/core/*",
+          "mock": "./src/mock",
+          "mock/*": "./src/mock/*",
+          "helpers": "./src/helpers",
+          "helpers/*": "./src/helpers/*"
+        }
+      }
+    ]
+  ]
+}
