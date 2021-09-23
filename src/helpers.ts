@@ -5,3 +5,13 @@ export const validateEmail = (email: string) => {
 
   return reg.test(String(email).toLowerCase());
 };
+
+export const validatePassword = (password: string) =>
+  password.trim().length > 7;
+
+export const validateConfirmPassword = (
+  password: string,
+  confirmPassword: string
+) =>
+  confirmPassword.trim().length > 7 &&
+  confirmPassword.trim() === password.trim();

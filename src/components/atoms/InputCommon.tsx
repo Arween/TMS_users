@@ -18,7 +18,7 @@ export const InputCommon = memo(
       <label className={"title"}>{title}</label>
       <input
         ref={inputRef}
-        className={!isValid ? "input-common _error" : "input-common"}
+        className={isValid ? "input-common" : "input-common _error"}
         value={value}
         onChange={(e) => onChangeHandler(e.target.value)}
         autoFocus={autoFocus}
