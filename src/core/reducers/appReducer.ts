@@ -4,10 +4,14 @@ import { setIsOpenHeader } from "../../core/actions";
 
 export interface IAppState {
   isOpenHeader: boolean;
+  isOpenHeader2: boolean;
+  isOpenHeader3: boolean;
 }
 
 const defaultState: IAppState = {
   isOpenHeader: false,
+  isOpenHeader2: true,
+  isOpenHeader3: false,
 };
 
 const actions = {
