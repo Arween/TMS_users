@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React, { memo, useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
@@ -7,7 +7,7 @@ import { getAppState } from "src/core/selectors/appSelectors";
 
 import { Title } from "../atoms/Title";
 
-export const Header = () => {
+export const Header = memo(() => {
   const { isOpenHeader } = useSelector(getAppState);
   console.log({ isOpenHeader });
 
@@ -54,4 +54,4 @@ export const Header = () => {
       )}
     </div>
   );
-};
+});

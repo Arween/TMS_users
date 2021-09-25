@@ -6,6 +6,12 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { store } from "./core";
+import { AuthService } from "./services/AuthService";
+
+AuthService.setCredentials({
+  URL: "http://studapi.teachmeskills.by",
+});
+AuthService.prefix = "auth";
 
 ReactDOM.render(
   <React.StrictMode>

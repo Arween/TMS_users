@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import {
+  sendRegistrationData,
   setConfirmPasswordAction,
   setEmailAction,
   setPasswordAction,
@@ -39,8 +40,20 @@ export const Login = () => {
   );
 
   const loginUser = () => {
-    if (isValidUserName && isValidEmail) {
-      history.push("/users");
+    if (
+      isValidUserName &&
+      isValidEmail &&
+      isValidPassword &&
+      isValidConfirmPassword
+    ) {
+      dispatch(
+        sendRegistrationData({
+          username: userName,
+          password,
+          email,
+        })
+      );
+      // history.push("/users");
     }
   };
 
