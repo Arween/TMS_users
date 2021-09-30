@@ -1,31 +1,57 @@
 import { call, put, takeEvery, select } from "redux-saga/effects";
 import { Action } from "redux-actions";
 
-// import { AuthService } from "src/services/AuthService";
-import { IUserAuth } from "src/types/user";
-import { sendRegistrationDataError, setUsernameAction } from "../actions";
+import { AuthService } from "src/services/AuthService";
+import { IUserAuth, IActivationPayload } from "src/types/user";
+import { sendRegistrationDataErrorAction, setUsernameAction } from "../actions";
 import { ACTIONS } from "../actions/constants";
 import { getRegistrationSelector } from "../selectors/registrationSelectors";
 import { IRegistrationState } from "../reducers/registrationReducer";
+import { sendLoginDataErrorAction } from "../actions/loginActions";
+import { getLoginSelector } from "../selectors/loginSelectors";
 
-function* sendRegistrationSaga({
+function* registrationSaga({
   payload: { username, password, email },
 }: Action<IUserAuth>) {
   try {
-    const data: IRegistrationState = yield select(getRegistrationSelector);
+    console.log({ username, password, email });
+    yield put(sendRegistrationDataErrorAction(null));
 
-    console.log(data);
-    console.log("registrationData:", { username, password, email });
+    yield call(() =>
+      AuthService.registration({
+        username,
+        password,
+        email,
+      })
+    );
+  } catch (e: any) {
+    const error = Object.keys(e.response.data).reduce(
+      (acc: string, field: string) => {
+        const value = e.response.data[field];
 
-    //  yield call(() =>
-    //   AuthService.signUp({
-    //     username,
-    //     password,
-    //     email,
-    //   })
-    // );
+        return acc + value.join(" ");
+      },
+      ""
+    );
+    console.log({ error });
+    yield put(sendRegistrationDataErrorAction(error));
+  }
+}
 
-    yield put(setUsernameAction(""));
+function* loginSaga({
+  payload: { username, password, email },
+}: Action<IUserAuth>) {
+  try {
+    const { email, password }: IRegistrationState = yield select(
+      getLoginSelector
+    );
+
+    yield call(() =>
+      AuthService.login({
+        password,
+        email,
+      })
+    );
 
     // const data = yield call(() =>
     //   AuthService.signUp({ username, password, email })
@@ -34,10 +60,37 @@ function* sendRegistrationSaga({
     // console.log({ data });
   } catch (e) {
     yield put(setUsernameAction(""));
-    yield put(sendRegistrationDataError({ e }));
+    yield put(sendLoginDataErrorAction({ e }));
+  }
+}
+
+function* confirmationRegistrationSaga({
+  payload: { token, uid },
+}: Action<IActivationPayload>) {
+  try {
+    yield call(() =>
+      AuthService.activateUser({
+        token,
+        uid,
+      })
+    );
+
+    // const data = yield call(() =>
+    //   AuthService.signUp({ username, password, email })
+    // );
+
+    // console.log({ data });
+  } catch (e) {
+    // yield put(setUsernameAction(""));
+    // yield put(sendLoginDataErrorAction({ e }));
   }
 }
 
 export function* authSaga() {
-  yield takeEvery(ACTIONS.SEND_REGISTRATION_DATA, sendRegistrationSaga);
+  yield takeEvery(ACTIONS.SEND_REGISTRATION_DATA, registrationSaga);
+  yield takeEvery(ACTIONS.SEND_LOGIN_DATA, loginSaga);
+  yield takeEvery(
+    ACTIONS.SEND_REGISTRATION_CONFIRMATION,
+    confirmationRegistrationSaga
+  );
 }

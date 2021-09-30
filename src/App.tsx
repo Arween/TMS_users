@@ -9,9 +9,11 @@ import {
 // import logo from "./logo.svg";
 import "./App.css";
 import { Title } from "./components/atoms/Title";
+import { ConfirmationRegistration } from "./components/pages/ConfirmationRegistration";
 import { Home } from "./components/pages/Home";
 import { Login } from "./components/pages/Login";
 import { NotFound } from "./components/pages/NotFound";
+import { Registration } from "./components/pages/Registration";
 import { User } from "./components/pages/User";
 import { Users } from "./components/pages/Users";
 import { PrivateRoute } from "./router/PrivateRoute";
@@ -28,6 +30,12 @@ function App() {
       <div>
         <Switch>
           <PublicRoute component={Home} path="/" exact />
+          <PublicRoute component={Registration} path="/registration" exact />
+          <PublicRoute
+            component={ConfirmationRegistration}
+            path="/activate/:uid/:token"
+            exact
+          />
           <PublicRoute component={Login} path="/login" exact />
           <PrivateRoute component={User} path="/users/:id" exact />
           <PrivateRoute component={Users} path="/users" exact />

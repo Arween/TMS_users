@@ -1,20 +1,13 @@
-import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+
 import {
-  sendRegistrationData,
-  setConfirmPasswordAction,
-  setEmailAction,
-  setPasswordAction,
-  setUsernameAction,
-} from "src/core";
-import { getRegistrationSelector } from "src/core/selectors/registrationSelectors";
-import {
-  validateConfirmPassword,
-  validateEmail,
-  validateName,
-  validatePassword,
-} from "../../helpers";
+  sendLoginDataAction,
+  setEmailLoginAction,
+  setPasswordLoginAction,
+} from "src/core/actions/loginActions";
+import { getLoginSelector } from "src/core/selectors/loginSelectors";
+import { validateEmail, validatePassword } from "../../helpers";
 // import { login } from "../../router/utils";
 import { ButtonCommon } from "../atoms/ButtonCommon";
 import { InputCommon } from "../atoms/InputCommon";
@@ -27,28 +20,15 @@ export const Login = () => {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const { password, confirmPassword, email, userName } = useSelector(
-    getRegistrationSelector
-  );
+  const { password, email } = useSelector(getLoginSelector);
 
-  const isValidUserName = validateName(userName);
   const isValidEmail = validateEmail(email);
   const isValidPassword = validatePassword(password);
-  const isValidConfirmPassword = validateConfirmPassword(
-    password,
-    confirmPassword
-  );
 
   const loginUser = () => {
-    if (
-      isValidUserName &&
-      isValidEmail &&
-      isValidPassword &&
-      isValidConfirmPassword
-    ) {
+    if (isValidEmail && isValidPassword) {
       dispatch(
-        sendRegistrationData({
-          username: userName,
+        sendLoginDataAction({
           password,
           email,
         })
@@ -61,20 +41,11 @@ export const Login = () => {
     <MainTemplate
       titleBlock={<Title title={"Login"} />}
       main={
-        <form className="form">
-          <InputCommon
-            value={userName}
-            onChangeHandler={(text: string) =>
-              dispatch(setUsernameAction(text.trim()))
-            }
-            title={"User name"}
-            isValid={isValidUserName}
-            autoFocus={true}
-          />
+        <div className="form">
           <InputCommon
             value={email}
             onChangeHandler={(text: string) =>
-              dispatch(setEmailAction(text.trim()))
+              dispatch(setEmailLoginAction(text.trim()))
             }
             title={"Email"}
             isValid={isValidEmail}
@@ -82,32 +53,19 @@ export const Login = () => {
           <InputCommon
             value={password}
             onChangeHandler={(text: string) =>
-              dispatch(setPasswordAction(text.trim()))
+              dispatch(setPasswordLoginAction(text.trim()))
             }
             title={"Password"}
             isValid={isValidPassword}
           />
-          <InputCommon
-            value={confirmPassword}
-            onChangeHandler={(text: string) =>
-              dispatch(setConfirmPasswordAction(text.trim()))
-            }
-            title={"Confirm Password"}
-            isValid={isValidConfirmPassword}
-          />
 
           <ButtonCommon
-            isValid={
-              isValidUserName &&
-              isValidEmail &&
-              isValidPassword &&
-              isValidConfirmPassword
-            }
+            isValid={isValidEmail && isValidPassword}
             onClick={loginUser}
           >
             Login
           </ButtonCommon>
-        </form>
+        </div>
       }
     />
   );
