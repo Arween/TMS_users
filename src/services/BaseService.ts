@@ -84,6 +84,7 @@ export class BaseService {
 
   public async post(route: string, data?: any) {
     const url: string = this.getCurrentUrl(route);
+    console.log({ url });
     const headers = await this.getHeaders();
 
     return await projectAxios.post(url, data, headers);

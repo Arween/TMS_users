@@ -3,6 +3,7 @@ import { createAction } from "typesafe-actions";
 import { ACTIONS } from "./constants";
 
 import { IUserAuth } from "src/types/user";
+import { IActivationPayload } from "../../types/user";
 
 export const setEmailAction = createAction(ACTIONS.SET_EMAIL)<string>();
 
@@ -14,10 +15,18 @@ export const setConfirmPasswordAction = createAction(
   ACTIONS.SET_CONFIRM_PASSWORD
 )<string>();
 
-export const sendRegistrationData = createAction(
+export const sendRegistrationDataAction = createAction(
   ACTIONS.SEND_REGISTRATION_DATA
 )<IUserAuth>();
 
-export const sendRegistrationDataError = createAction(
+export const sendRegistrationDataErrorAction = createAction(
   ACTIONS.SEND_REGISTRATION_DATA_ERROR
-)<any>();
+)<string | null>();
+
+export const sendRegistrationDataSuccessAction = createAction(
+  ACTIONS.SEND_REGISTRATION_DATA_SUCCESS
+)<boolean>();
+
+export const sendRegistrationConfirmationAction = createAction(
+  ACTIONS.SEND_REGISTRATION_CONFIRMATION
+)<IActivationPayload>();

@@ -9,7 +9,7 @@ import { store } from "./core";
 import { AuthService } from "./services/AuthService";
 
 AuthService.setCredentials({
-  URL: "http://studapi.teachmeskills.by",
+  URL: "https://studapi.teachmeskills.by",
 });
 AuthService.prefix = "auth";
 
