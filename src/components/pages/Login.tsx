@@ -15,12 +15,13 @@ import { InputCommon } from "../atoms/InputCommon";
 import { Title } from "../atoms/Title";
 import { MainTemplate } from "../templates/MainTemplate";
 // import { useHistoryPush } from "./useHistoryPush";
+import { useEffect } from "react";
 
 export const Login = () => {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const { password, email } = useSelector(getLoginSelector);
+  const { password, email, error, isSuccess } = useSelector(getLoginSelector);
 
   const isValidEmail = validateEmail(email);
   const isValidPassword = validatePassword(password);
@@ -36,6 +37,12 @@ export const Login = () => {
       // history.push("/users");
     }
   };
+
+  useEffect(() => {
+    if (isSuccess) {
+      history.push("/users");
+    }
+  }, [history, isSuccess]);
 
   return (
     <MainTemplate
@@ -59,6 +66,7 @@ export const Login = () => {
             isValid={isValidPassword}
           />
 
+          {error}
           <ButtonCommon
             isValid={isValidEmail && isValidPassword}
             onClick={loginUser}

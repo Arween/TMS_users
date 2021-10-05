@@ -2,12 +2,15 @@ import { call, put, takeEvery, select } from "redux-saga/effects";
 import { Action } from "redux-actions";
 
 import { AuthService } from "src/services/AuthService";
-import { IUserAuth, IActivationPayload } from "src/types/user";
+import { IUserAuth, IActivationPayload, ITokens } from "src/types/user";
 import { sendRegistrationDataErrorAction, setUsernameAction } from "../actions";
 import { ACTIONS } from "../actions/constants";
 import { getRegistrationSelector } from "../selectors/registrationSelectors";
 import { IRegistrationState } from "../reducers/registrationReducer";
-import { sendLoginDataErrorAction } from "../actions/loginActions";
+import {
+  sendLoginDataErrorAction,
+  sendLoginDataSuccessAction,
+} from "../actions/loginActions";
 import { getLoginSelector } from "../selectors/loginSelectors";
 
 function* registrationSaga({
@@ -38,32 +41,6 @@ function* registrationSaga({
   }
 }
 
-function* loginSaga({
-  payload: { username, password, email },
-}: Action<IUserAuth>) {
-  try {
-    const { email, password }: IRegistrationState = yield select(
-      getLoginSelector
-    );
-
-    yield call(() =>
-      AuthService.login({
-        password,
-        email,
-      })
-    );
-
-    // const data = yield call(() =>
-    //   AuthService.signUp({ username, password, email })
-    // );
-
-    // console.log({ data });
-  } catch (e) {
-    yield put(setUsernameAction(""));
-    yield put(sendLoginDataErrorAction({ e }));
-  }
-}
-
 function* confirmationRegistrationSaga({
   payload: { token, uid },
 }: Action<IActivationPayload>) {
@@ -83,6 +60,44 @@ function* confirmationRegistrationSaga({
   } catch (e) {
     // yield put(setUsernameAction(""));
     // yield put(sendLoginDataErrorAction({ e }));
+  }
+}
+
+function* loginSaga({ payload: { password, email } }: Action<IUserAuth>) {
+  try {
+    yield put(sendLoginDataErrorAction(null));
+
+    const data: { data: ITokens } = yield call(() =>
+      AuthService.login({
+        password,
+        email,
+      })
+    );
+    const { access, refresh } = data?.data as any;
+
+    localStorage.setItem("access", access);
+    localStorage.setItem("refresh", refresh);
+
+    yield put(sendLoginDataSuccessAction(true));
+
+    const usersData: { data: ITokens } = yield call(() =>
+      AuthService.getUsers()
+    );
+
+    const users = usersData?.data as any;
+
+    // const data = yield call(() =>
+    //   AuthService.signUp({ username, password, email })
+    // );
+
+    console.log({ users });
+  } catch (e) {
+    console.log({ e });
+    yield put(
+      sendLoginDataErrorAction(
+        "No active account found with the given credentials"
+      )
+    );
   }
 }
 

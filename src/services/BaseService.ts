@@ -45,7 +45,7 @@ export class BaseService {
 
       return {
         headers: {
-          // Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
       };
     } catch (error) {
@@ -54,17 +54,10 @@ export class BaseService {
   }
 
   public static async getTokens() {
-    const token = await localStorage.getItem("user_token");
-    const refresh = await localStorage.getItem("refresh_token");
+    const token = localStorage.getItem("access");
+    const refresh = localStorage.getItem("refresh");
 
-    if (token) {
-      return { type: "user", token, refresh };
-    }
-
-    const guestToken = await localStorage.getItem("guest_token");
-    const guestRefresh = await localStorage.getItem("guest_refresh_token");
-
-    return { type: "guest", token: guestToken, refresh: guestRefresh };
+    return { token, refresh };
   }
 
   public set prefix(prefix: string | undefined) {

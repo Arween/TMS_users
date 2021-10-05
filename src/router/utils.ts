@@ -1,13 +1,13 @@
 export const login = (userName: string) => {
-  localStorage.setItem("USER_NAME", userName);
+  localStorage.setItem("refresh", userName);
 };
 
 export const logout = () => {
-  localStorage.removeItem("USER_NAME");
+  localStorage.removeItem("refresh");
 };
 
 export const isLogin = () => {
-  if (localStorage.getItem("USER_NAME")) {
+  if (localStorage.getItem("refresh")) {
     return true;
   }
 
