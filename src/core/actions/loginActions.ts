@@ -12,14 +12,14 @@ export const setPasswordLoginAction = createAction(
   ACTIONS.SET_PASSWORD_LOGIN
 )<string>();
 
-export const setConfirmPasswordAction = createAction(
-  ACTIONS.SET_CONFIRM_PASSWORD
-)<string>();
-
 export const sendLoginDataAction = createAction(
   ACTIONS.SEND_LOGIN_DATA
 )<IUserLoginAuth>();
 
 export const sendLoginDataErrorAction = createAction(
   ACTIONS.SEND_LOGIN_DATA_ERROR
-)<any>();
+)<string | null>();
+
+export const sendLoginDataSuccessAction = createAction(
+  ACTIONS.SEND_LOGIN_DATA_SUCCESS
+)<boolean>();
