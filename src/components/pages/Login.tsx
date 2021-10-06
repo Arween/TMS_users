@@ -40,7 +40,7 @@ export const Login = () => {
 
   useEffect(() => {
     if (isSuccess) {
-      history.push("/users");
+      history.push("/posts");
     }
   }, [history, isSuccess]);
 

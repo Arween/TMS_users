@@ -1,26 +1,37 @@
+import { IProfile } from "src/types/user";
 import { ActionType, createReducer } from "typesafe-actions";
 
-import { setIsOpenHeader } from "../../core/actions";
+import { setIsOpenHeader, setProfileAction } from "../../core/actions";
 
-export interface IAppState {
+export interface IAppState extends IProfile {
   isOpenHeader: boolean;
-  isOpenHeader2: boolean;
-  isOpenHeader3: boolean;
 }
 
 const defaultState: IAppState = {
   isOpenHeader: false,
-  isOpenHeader2: true,
-  isOpenHeader3: false,
+  username: null,
+  id: null,
+  email: null,
 };
 
 const actions = {
   setIsOpenHeader,
+  setProfileAction,
 };
 
 export const appReducer = createReducer<IAppState, ActionType<typeof actions>>(
   defaultState
-).handleAction(setIsOpenHeader, (state, { payload }) => ({
-  ...state,
-  isOpenHeader: payload,
-}));
+)
+  .handleAction(setIsOpenHeader, (state, { payload }) => ({
+    ...state,
+    isOpenHeader: payload,
+  }))
+  .handleAction(
+    setProfileAction,
+    (state, { payload: { email, username, id } }) => ({
+      ...state,
+      username,
+      id,
+      email,
+    })
+  );

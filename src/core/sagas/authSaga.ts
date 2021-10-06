@@ -3,7 +3,11 @@ import { Action } from "redux-actions";
 
 import { AuthService } from "src/services/AuthService";
 import { IUserAuth, IActivationPayload, ITokens } from "src/types/user";
-import { sendRegistrationDataErrorAction, setUsernameAction } from "../actions";
+import {
+  sendRegistrationDataErrorAction,
+  setProfileAction,
+  setUsernameAction,
+} from "../actions";
 import { ACTIONS } from "../actions/constants";
 import { getRegistrationSelector } from "../selectors/registrationSelectors";
 import { IRegistrationState } from "../reducers/registrationReducer";
@@ -85,6 +89,8 @@ function* loginSaga({ payload: { password, email } }: Action<IUserAuth>) {
     );
 
     const users = usersData?.data as any;
+
+    yield put(setProfileAction(users.results[0]));
 
     // const data = yield call(() =>
     //   AuthService.signUp({ username, password, email })
