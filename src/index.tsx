@@ -7,11 +7,17 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { store } from "./core";
 import { AuthService } from "./services/AuthService";
+import { PostsService } from "./services/PostsService";
 
 AuthService.setCredentials({
   URL: "https://studapi.teachmeskills.by",
 });
 AuthService.prefix = "auth";
+
+PostsService.setCredentials({
+  URL: "https://studapi.teachmeskills.by",
+});
+PostsService.prefix = "blog/posts";
 
 ReactDOM.render(
   <React.StrictMode>

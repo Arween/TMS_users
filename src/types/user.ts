@@ -18,3 +18,9 @@ export interface ITokens {
   refresh: string;
   access: string;
 }
+
+export interface IProfile {
+  username: string | null;
+  id: number | null;
+  email: string | null;
+}
