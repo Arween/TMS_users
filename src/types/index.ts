@@ -6,3 +6,10 @@ export interface IUser {
   avatar: string;
   age: number;
 }
+// string[]
+
+export interface ISettingsSort {
+  title: string;
+  field: string;
+  isActive: boolean;
+}
