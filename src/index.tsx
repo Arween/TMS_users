@@ -8,6 +8,8 @@ import reportWebVitals from "./reportWebVitals";
 import { store } from "./core";
 import { AuthService } from "./services/AuthService";
 import { PostsService } from "./services/PostsService";
+import { PublicService } from "./services/PublicService";
+import { UserService } from "./services/UserService";
 
 AuthService.setCredentials({
   URL: "https://studapi.teachmeskills.by",
@@ -17,7 +19,19 @@ AuthService.prefix = "auth";
 PostsService.setCredentials({
   URL: "https://studapi.teachmeskills.by",
 });
+
 PostsService.prefix = "blog/posts";
+
+PublicService.setCredentials({
+  URL: "https://studapi.teachmeskills.by",
+});
+PublicService.prefix = "blog";
+
+UserService.setCredentials({
+  URL: "https://studapi.teachmeskills.by",
+});
+
+UserService.prefix = "auth/users";
 
 ReactDOM.render(
   <React.StrictMode>
