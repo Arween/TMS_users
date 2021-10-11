@@ -41,9 +41,9 @@ class RefreshTokens {
           return Promise.reject(error);
         }
 
-        const { access, refresh } = response.data;
+        const { access } = response.data;
         this.storage.setItem("access", access); // save the newly refreshed token for other requests to use
-        this.storage.setItem("refresh", refresh); // save the newly refreshed token for other requests to use
+        // this.storage.setItem("refresh", refresh); // save the newly refreshed token for other requests to use
         mutex.isAlreadyFetchingAccessToken = false;
         onAccessTokenFetched(access);
       }
