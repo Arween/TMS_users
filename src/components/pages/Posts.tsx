@@ -22,10 +22,11 @@ export const Posts = () => {
     <div className="App">
       <main>
         <Title title={"ALL POSTS: " + username} />
-        {posts?.map(({ date, title }) => (
+        {posts?.map(({ date, title, image }) => (
           <div>
             <p>{title}</p>
             <p>{date}</p>
+            <img src={image} alt="postImage" />
           </div>
         ))}
       </main>
