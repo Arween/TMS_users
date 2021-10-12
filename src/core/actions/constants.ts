@@ -25,4 +25,5 @@ export enum ACTIONS {
   GET_MY_POSTS = "GET_MY_POSTS",
 
   SET_PROFILE = "SET_PROFILE",
+  SEND_POST = "SEND_POST",
 }
