@@ -20,6 +20,7 @@ import { PrivateRoute } from "./router/PrivateRoute";
 import { PublicRoute } from "./router/PublicRoute";
 import { Posts } from "./components/pages/Posts";
 import { MyPosts } from "./components/pages/MyPosts";
+import { AddPost } from "./components/pages/AddPost";
 
 function App() {
   // const loggedIn = false;
@@ -42,6 +43,7 @@ function App() {
           <PrivateRoute component={User} path="/users/:id" exact />
           <PrivateRoute component={Users} path="/users" exact />
           <PrivateRoute component={Posts} path="/posts" exact />
+          <PrivateRoute component={AddPost} path="/posts/add" exact />
           <PrivateRoute component={MyPosts} path="/my-posts" exact />
           <PublicRoute component={NotFound} exact />
         </Switch>
